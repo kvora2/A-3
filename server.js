@@ -9,7 +9,7 @@ function onHttpStart(){
 }
 
 app.get("/", function(req, res){
-    res.sendFile(path.join(__dirname, "/views/home.html"));
+    res.sendFile(path.join(__dirname, "./views/home.html"));
 });
 
 app.listen(HTTP_PORT, onHttpStart);
