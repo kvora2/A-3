@@ -18,4 +18,16 @@ app.get("/about", function(req, res){
     res.sendFile(path.join(__dirname, "./views/about.html"));
 });
 
+app.get("/employees", function(req, res){
+    res.sendFile(path.join(__dirname, "./data/employees.json"))
+});
+
+app.get("/managers", function(req, res){
+    res.sendFile(path.join(__dirname, "./data/employees.json"))
+});
+
+app.get("/departments", function(req, res){
+    res.sendFile(path.join(__dirname, "./data/departments.json"))
+});
+
 app.listen(HTTP_PORT, onHttpStart);
