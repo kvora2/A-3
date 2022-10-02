@@ -1,5 +1,5 @@
 initialize = () => {
-    let p = new Promise(fs.readFile('./data/employees.json', (err, data) => {
+    return new Promise(fs.readFile('./data/employees.json', (err, data) => {
         if (err) reject("Failure to read file employees.json!");
         employees = JSON.parse(data)
     }),
@@ -9,22 +9,22 @@ initialize = () => {
             departments = JSON.parse(data)
         }))
 
-    p.then(() => {
-        console.log(`HUrreyy!! the file was read successfully`);
-    }).catch(() => {
-        console.log(`Unable to read the file`);
-    })
-    return p;
+    // p.then(() => {
+    //     console.log(`HUrreyy!! the file was read successfully`);
+    // }).catch(() => {
+    //     console.log(`Unable to read the file`);
+    // })
+    // return p;
 }
 
+var data1 = require("./data/employees.json");
 getAllEmployees = () => {
-    let data = require("./data/employees.json");
     return new Promise((resolve, reject) => {
-        if (data.length === 0) {
+        if (data1.length == 0) {
             reject('no results returned');
         }
         else {
-            var all_emp = new Object(data);
+            var all_emp = new Object(data1);
             all_emp = JSON.stringify(all_emp);
             resolve(all_emp);
         }
