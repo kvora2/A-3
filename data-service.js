@@ -1,63 +1,65 @@
+const fs = require('fs');
+
+var employees, departments; // declaring global emp and depart variables
+
+// In the below function, employees and departments var will be populated if the files are readable
 initialize = () => {
-    return new Promise(fs.readFile('./data/employees.json', (err, data) => {
+    fs.readFile('./data/employees.json', (err, data) => {
         if (err) reject("Failure to read file employees.json!");
-        employees = JSON.parse(data)
-    }),
+        employees = JSON.parse(data);
+    })
 
-        fs.readFile('./data/departments.json', (err, data) => {
-            if (err) reject("Failure to read file departments.json!");
-            departments = JSON.parse(data)
-        }))
+    fs.readFile('./data/departments.json', (err, data) => {
+        if (err) reject("Failure to read file departments.json!");
+        departments = JSON.parse(data)
+    })
 
-    // p.then(() => {
-    //     console.log(`HUrreyy!! the file was read successfully`);
-    // }).catch(() => {
-    //     console.log(`Unable to read the file`);
-    // })
-    // return p;
+    return new Promise((resolve, reject) => {
+        if (!fs) {
+            reject("unable to read the file");
+        }
+        else {
+            resolve("Success!!");
+        }
+    })
 }
 
-var data1 = require("./data/employees.json");
+// Getting all of the employees
 getAllEmployees = () => {
     return new Promise((resolve, reject) => {
-        if (data1.length == 0) {
-            reject('no results returned');
+        if (employees.length == 0) {
+            reject("no results returned");
         }
         else {
-            var all_emp = new Object(data1);
-            all_emp = JSON.stringify(all_emp);
-            resolve(all_emp);
+            resolve(employees);
         }
     })
 }
 
-function getManagers() {
-    let data = require("./data/employees.json");
+// Getting all of the managers among employees
+getManagers = () => {
     return new Promise((resolve, reject) => {
-        if (data.length === 0) {
+        if (employees.length === 0) {
             reject('no results returned');
         }
         else {
-            var all_emp = [];
-            for (let i = 0; i < data.length; i++)
-                if (data[i].isManager === true)
-                    all_emp.push(data[i])
-            all_emp = JSON.stringify(all_emp);
-            resolve(all_emp);
+            let all_manag = [];
+            for (let i = 0; i < employees.length; i++)
+                if (employees[i].isManager === true)
+                    all_manag.push(employees[i])
+            resolve(all_manag);
         }
     })
 }
 
-function getDepartments() {
-    let data = require("./data/departments.json");
+// Getting all the departments
+getDepartments = () => {
     return new Promise((resolve, reject) => {
-        if (data.length === 0) {
+        if (departments.length === 0) {
             reject('no results returned');
         }
         else {
-            var all_depart = new Object(data);
-            all_depart = JSON.stringify(all_depart);
-            resolve(all_depart);
+            resolve(departments);
         }
     })
 }

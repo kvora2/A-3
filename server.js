@@ -4,8 +4,8 @@ var app = express();
 var path = require("path");
 const { nextTick } = require("process");
 var HTTP_PORT = process.env.PORT || 8080;
-var data_service = require("./data-service");
-var emp = data_service.getAllEmployees();
+require("./data-service.js");
+
 function onHttpStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
 }
@@ -21,7 +21,7 @@ app.get("/about", function (req, res) {
 });
 
 app.get("/employees", (req, res) => {
-    emp.then((data) => {
+    getAllEmployees().then((data) => {
         res.json(data);
     }).catch((err) => {
         console.log(err);
@@ -29,7 +29,7 @@ app.get("/employees", (req, res) => {
 });
 
 app.get("/managers", (req, res) => {
-    data_service.getManagers().then((data) => {
+    getManagers().then((data) => {
         res.json(data);
     }).catch((err) => {
         console.log(err);
@@ -37,18 +37,19 @@ app.get("/managers", (req, res) => {
 });
 
 app.get("/departments", (req, res) => {
-    data_service.getDepartments().then((data) => {
+    getDepartments().then((data) => {
         res.json(data);
     }).catch((err) => {
         console.log(err);
     });
 });
 
-app.listen(HTTP_PORT, onHttpStart);
-// app.get(HTTP_PORT, (req, res) => {
-//     data_service.initialize().then(() => {
-//         res.listen(HTTP_PORT, onHttpStart);
-//     }).catch(() => {
-//         console.log("Not able to read or access the file");
-//     })
-// })
+app.get("*", function(req, res) {
+    res.send("WTF???");
+})
+
+initialize().then(() => {
+    app.listen(HTTP_PORT, onHttpStart);
+}).catch((err) => {
+    console.log(err);
+})
