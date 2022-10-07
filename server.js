@@ -45,7 +45,7 @@ app.get("/departments", (req, res) => {
 });
 
 app.get("*", function(req, res) {
-    res.send("WTF???");
+    res.sendFile(path.join(__dirname, "./views/404.html"));
 })
 
 initialize().then(() => {
